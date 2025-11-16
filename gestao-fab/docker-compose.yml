@@ -13,7 +13,6 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-
  
   app-fab:
     build: . 
@@ -26,7 +25,7 @@ services:
     
       SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/fab_db
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: sua_senha_segura
+      SPRING_DATASOURCE_PASSWORD: Mysql123
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
 volumes:
