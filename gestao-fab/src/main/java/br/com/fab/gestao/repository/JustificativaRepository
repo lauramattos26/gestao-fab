@@ -1,0 +1,12 @@
+package br.com.fab.repository; 
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import br.com.fab.model.Justificativa; 
+import java.util.List;
+
+public interface JustificativaRepository extends JpaRepository<Justificativa, Long> {
+
+    List<Justificativa> findByAlunoId(Long alunoId);
+
+    List<Justificativa> findByDisciplinaId(Long disciplinaId);
+}

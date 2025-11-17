@@ -1,0 +1,10 @@
+package br.com.fab.repository; 
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import br.com.fab.model.Aviso; 
+import java.util.List;
+
+public interface AvisoRepository extends JpaRepository<Aviso, Long> {
+
+    List<Aviso> findByDisciplinaId(Long disciplinaId);
+}

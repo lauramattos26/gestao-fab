@@ -1,4 +1,4 @@
-package br.com.fab.gestao;
+package br.com.fab.model;
 
 public enum Perfil {
     ALUNO,
