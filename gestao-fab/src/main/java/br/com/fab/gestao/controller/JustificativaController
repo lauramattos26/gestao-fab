@@ -1,0 +1,45 @@
+package br.com.fab.gestao.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import br.com.fab.gestao.model.Justificativa;
+import br.com.fab.gestao.service.JustificativaService;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/justificativas")
+public class JustificativaController {
+
+    @Autowired
+    private JustificativaService justificativaService;
+
+    
+    @PostMapping
+    public ResponseEntity<Justificativa> registrarJustificativa(@RequestBody Justificativa novaJustificativa) {
+        Justificativa justificativaRegistrada = justificativaService.registrarJustificativa(novaJustificativa);
+        return ResponseEntity.status(HttpStatus.CREATED).body(justificativaRegistrada);
+    }
+
+    
+    @GetMapping("/aluno/{alunoId}")
+    public ResponseEntity<List<Justificativa>> buscarPorAluno(@PathVariable Long alunoId) {
+        List<Justificativa> justificativas = justificativaService.buscarPorAluno(alunoId);
+        return ResponseEntity.ok(justificativas);
+    }
+
+   
+    @PutMapping("/{id}/status")
+    public ResponseEntity<?> atualizarStatus(
+            @PathVariable Long id, 
+            @RequestParam String novoStatus) {
+        try {
+            Justificativa justificativaAtualizada = justificativaService.atualizarStatus(id, novoStatus);
+            return ResponseEntity.ok(justificativaAtualizada);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+}

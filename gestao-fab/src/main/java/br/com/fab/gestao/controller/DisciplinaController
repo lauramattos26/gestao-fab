@@ -1,0 +1,48 @@
+package br.com.fab.gestao.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import br.com.fab.gestao.model.Disciplina;
+import br.com.fab.gestao.service.DisciplinaService;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/disciplinas")
+public class DisciplinaController {
+
+    @Autowired
+    private DisciplinaService disciplinaService;
+
+    
+    @PostMapping
+    public ResponseEntity<Disciplina> registrarDisciplina(@RequestBody Disciplina novaDisciplina) {
+        Disciplina disciplinaRegistrada = disciplinaService.registrarDisciplina(novaDisciplina);
+        return ResponseEntity.status(HttpStatus.CREATED).body(disciplinaRegistrada);
+    }
+
+    
+    @GetMapping
+    public ResponseEntity<List<Disciplina>> buscarTodas() {
+        List<Disciplina> disciplinas = disciplinaService.buscarTodas();
+        return ResponseEntity.ok(disciplinas);
+    }
+
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Disciplina> buscarPorId(@PathVariable Long id) {
+        Optional<Disciplina> disciplina = disciplinaService.buscarPorId(id);
+        
+        return disciplina.map(ResponseEntity::ok)
+                         .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    
+    @GetMapping("/professor/{professorId}")
+    public ResponseEntity<List<Disciplina>> buscarPorProfessor(@PathVariable Long professorId) {
+        List<Disciplina> disciplinas = disciplinaService.buscarPorProfessor(professorId);
+        return ResponseEntity.ok(disciplinas);
+    }
+}

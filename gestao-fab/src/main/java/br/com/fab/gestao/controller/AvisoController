@@ -1,0 +1,41 @@
+package br.com.fab.gestao.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import br.com.fab.gestao.model.Aviso;
+import br.com.fab.gestao.service.AvisoService;
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/api/avisos")
+public class AvisoController {
+
+    @Autowired
+    private AvisoService avisoService;
+
+    
+    @PostMapping
+    public ResponseEntity<Aviso> registrarAviso(@RequestBody Aviso novoAviso) {
+        Aviso avisoRegistrado = avisoService.registrarAviso(novoAviso);
+        return ResponseEntity.status(HttpStatus.CREATED).body(avisoRegistrado);
+    }
+
+    
+    @GetMapping("/disciplina/{disciplinaId}")
+    public ResponseEntity<List<Aviso>> buscarPorDisciplina(@PathVariable Long disciplinaId) {
+        List<Aviso> avisos = avisoService.buscarPorDisciplina(disciplinaId);
+        return ResponseEntity.ok(avisos);
+    }
+
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Aviso> buscarPorId(@PathVariable Long id) {
+        Optional<Aviso> aviso = avisoService.buscarPorId(id);
+        
+        return aviso.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+}

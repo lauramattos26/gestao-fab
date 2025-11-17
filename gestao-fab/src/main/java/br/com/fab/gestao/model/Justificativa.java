@@ -1,4 +1,4 @@
-package br.com.fab.model;
+package br.com.fab.gestao.model;
 
 public class Justificativa {
 
