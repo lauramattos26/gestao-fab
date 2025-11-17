@@ -1,0 +1,41 @@
+package br.com.fab.gestao.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import br.com.fab.gestao.repository.JustificativaRepository;
+import br.com.fab.gestao.model.Justificativa;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class JustificativaService {
+
+    @Autowired
+    private JustificativaRepository justificativaRepository;
+
+    public Justificativa registrarJustificativa(Justificativa novaJustificativa) {
+        
+        return justificativaRepository.save(novaJustificativa);
+    }
+
+    public List<Justificativa> buscarPorAluno(Long alunoId) {
+        return justificativaRepository.findByAlunoId(alunoId);
+    }
+
+    public List<Justificativa> buscarPorDisciplina(Long disciplinaId) {
+        return justificativaRepository.findByDisciplinaId(disciplinaId);
+    }
+    
+    public Optional<Justificativa> buscarPorId(Long id) {
+        return justificativaRepository.findById(id);
+    }
+
+    public Justificativa atualizarStatus(Long id, String novoStatus) {
+        return justificativaRepository.findById(id)
+            .map(justificativa -> {
+                justificativa.setStatus(novoStatus);
+                return justificativaRepository.save(justificativa);
+            })
+            .orElseThrow(() -> new RuntimeException("Justificativa não encontrada com ID: " + id));
+    }
+}

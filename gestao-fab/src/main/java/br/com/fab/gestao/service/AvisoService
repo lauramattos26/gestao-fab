@@ -1,0 +1,28 @@
+package br.com.fab.gestao.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import br.com.fab.gestao.repository.AvisoRepository;
+import br.com.fab.gestao.model.Aviso; 
+import br.com.fab.gestao.model.Disciplina; 
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class AvisoService {
+
+    @Autowired
+    private AvisoRepository avisoRepository;
+
+    public Aviso registrarAviso(Aviso novoAviso) {
+        return avisoRepository.save(novoAviso);
+    }
+
+    public List<Aviso> buscarPorDisciplina(Long disciplinaId) {
+        return avisoRepository.findByDisciplinaId(disciplinaId);
+    }
+
+    public Optional<Aviso> buscarPorId(Long id) {
+        return avisoRepository.findById(id);
+    }
+}

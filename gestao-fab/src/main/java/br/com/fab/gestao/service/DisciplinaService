@@ -1,0 +1,32 @@
+package br.com.fab.gestao.service; 
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import br.com.fab.gestao.repository.DisciplinaRepository; 
+import br.com.fab.gestao.model.Disciplina; 
+import br.com.fab.gestao.model.Usuario; 
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class DisciplinaService {
+
+    @Autowired
+    private DisciplinaRepository disciplinaRepository;
+
+    public Disciplina registrarDisciplina(Disciplina novaDisciplina) {
+        return disciplinaRepository.save(novaDisciplina);
+    }
+
+    public List<Disciplina> buscarTodas() {
+        return disciplinaRepository.findAll();
+    }
+
+    public List<Disciplina> buscarPorProfessor(Long professorId) {
+        return disciplinaRepository.findByProfessorId(professorId);
+    }
+
+    public Optional<Disciplina> buscarPorId(Long id) {
+        return disciplinaRepository.findById(id);
+    }
+}
